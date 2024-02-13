@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.stateCodes;
+package edu.brown.cs.student.main.requestCode;
 
 public class stateCodes {
   private String NAME;
