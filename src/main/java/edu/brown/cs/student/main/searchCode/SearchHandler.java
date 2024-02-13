@@ -6,9 +6,18 @@ import spark.Route;
 
 public class SearchHandler implements Route {
 
-  // http://localhost:3232/searchcsv?filepath=Hello_world
+  // http://localhost:3232/searchcsv?
+  // searchby=(column or grid)
+  // index= (number),
+  // header= (string)
+  // term = (string)
   @Override
   public Object handle(Request request, Response response) throws Exception {
+    String searchBy = request.queryParams("searchby");
+    String index = request.queryParams("index");
+    String header = request.queryParams("header");
+    String term = request.queryParams("term");
+
     return null;
   }
   // given search term, the loaded csv will return all relevant rows as a json. Should allow all
