@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.server;
+package edu.brown.cs.student.main.searchCode;
 
 public class SearchHandler {
 // given search term, the loaded csv will return all relevant rows as a json. Should allow all

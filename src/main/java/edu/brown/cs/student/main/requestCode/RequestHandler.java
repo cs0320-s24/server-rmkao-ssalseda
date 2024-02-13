@@ -1,7 +1,5 @@
-package edu.brown.cs.student.main.server;
+package edu.brown.cs.student.main.requestCode;
 
-import edu.brown.cs.student.main.stateCodes.stateCodes;
-import edu.brown.cs.student.main.stateCodes.stateCodesAPIUtilities;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

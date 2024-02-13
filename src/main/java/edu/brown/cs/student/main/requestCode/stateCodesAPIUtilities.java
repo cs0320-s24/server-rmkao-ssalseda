@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.stateCodes;
+package edu.brown.cs.student.main.requestCode;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;

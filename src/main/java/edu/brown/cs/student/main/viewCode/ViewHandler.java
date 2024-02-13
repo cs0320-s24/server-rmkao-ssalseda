@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.server;
+package edu.brown.cs.student.main.viewCode;
 
 public class ViewHandler {
   // converts load CSV file to JSON and sends it
