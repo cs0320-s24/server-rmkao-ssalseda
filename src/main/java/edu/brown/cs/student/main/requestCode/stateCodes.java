@@ -11,8 +11,8 @@ public class stateCodes {
 
   public stateCodes() {}
 
-    @Override
-   public String toString() {
-     return "For " + this.NAME + " the code is " + this.state;
+  @Override
+  public String toString() {
+    return "For " + this.NAME + " the code is " + this.state;
   }
 }
