@@ -1,6 +1,15 @@
 package edu.brown.cs.student.main.viewCode;
 
-public class ViewHandler {
+import spark.Request;
+import spark.Response;
+import spark.Route;
+
+public class ViewHandler implements Route {
+
+  @Override
+  public Object handle(Request request, Response response) throws Exception {
+    return null;
+  }
   // converts load CSV file to JSON and sends it
 
 //  To keep the format simple, all responses must be serializations of a Map<String, Object> object.
