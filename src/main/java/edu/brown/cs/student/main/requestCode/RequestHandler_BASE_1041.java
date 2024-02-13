@@ -1,9 +1,7 @@
-package edu.brown.cs.student.main.requestCode;
+package edu.brown.cs.student.main.server;
 
-<<<<<<< HEAD:src/main/java/edu/brown/cs/student/main/server/RequestHandler.java
+import edu.brown.cs.student.main.stateCodes.stateCodes;
 import edu.brown.cs.student.main.stateCodes.stateCodesAPIUtilities;
-=======
->>>>>>> e9acba08759a8c5f30658a025738146334796a0a:src/main/java/edu/brown/cs/student/main/requestCode/RequestHandler.java
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
