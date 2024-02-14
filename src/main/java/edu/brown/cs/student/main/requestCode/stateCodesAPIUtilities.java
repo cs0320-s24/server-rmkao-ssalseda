@@ -12,15 +12,12 @@ public class stateCodesAPIUtilities {
 
   /**
    * @param jsonActivity
-   * @return
+   * @return List of list of strings representing the json data
    */
   public static List<List<String>> deserializeCode(String jsonActivity) {
     try {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
-
-      // Initializes an adapter to an Activity class then uses it to parse the JSON.
-      //      JsonAdapter<stateCodes> adapter = moshi.adapter(stateCodes.class);
 
       Type listType = Types.newParameterizedType(List.class, List.class, String.class);
       JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);

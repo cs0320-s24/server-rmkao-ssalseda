@@ -1,8 +1,9 @@
 package edu.brown.cs.student.main.broadCode;
 
+import edu.brown.cs.student.main.requestCode.stateCodesAPIUtilities;
 import edu.brown.cs.student.main.server.Datasource;
-import edu.brown.cs.student.main.server.MockedDatasource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import spark.Request;
@@ -30,7 +31,11 @@ public class BroadbandHandler implements Route {
     // Creates a hashmap to store the results of the request
     Map<String, Object> responseMap = new HashMap<>();
     try {
-      Map<String, Object> response = dataSource.getData();
+      String codeJson = dataSource.getData(county, state);
+      // Deserializes JSON into rows of data
+      List<List<String>> code = stateCodesAPIUtilities.deserializeCode(codeJson);
+      responseMap.put("result", "success");
+      responseMap.put("codeMatch", code);
     } catch (Exception e) {
       e.printStackTrace();
       responseMap.put("result", "Exception");
