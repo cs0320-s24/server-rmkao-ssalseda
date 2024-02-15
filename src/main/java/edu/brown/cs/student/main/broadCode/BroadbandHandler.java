@@ -30,19 +30,39 @@ public class BroadbandHandler implements Route {
     Set<String> params = request.queryParams();
     String stateName = request.queryParams("state");
     String countyName = request.queryParams("county");
+    if (stateName == null) {
+      System.err.println("bad request: missing state name");
+      responseMap.put("result", "error_bad_request");
+      return responseMap;
+    }
+    if (countyName == null) {
+      System.err.println("bad request: missing county name");
+      responseMap.put("result", "error_bad_request");
+      return responseMap;
+    }
     responseMap.put("state name", stateName);
     responseMap.put("county name", countyName);
 
     try {
-      String stateCodesJson = dataSource.getStateCodes();
+      String stateCodesJson = dataSource.getStateCodes(); // Census API call
       Map<String, String> stateMap = stateCodesAPIUtilities.deserializeStates(stateCodesJson);
       String stateCode = stateMap.get(stateName);
+      if (stateCode == null) {
+        System.err.println("bad request: invalid state");
+        responseMap.put("result", "error_bad_request");
+        return responseMap;
+      }
 
-      String countyCodesJson = dataSource.getCountyCodes(stateCode);
+      String countyCodesJson = dataSource.getCountyCodes(stateCode); // Census API call
       Map<String, String> countyMap = stateCodesAPIUtilities.deserializeCounties(countyCodesJson);
       String countyCode = countyMap.get(countyName + ", " + stateName);
+      if (countyCode == null) {
+        System.err.println("bad request: invalid county");
+        responseMap.put("result", "error_bad_request");
+        return responseMap;
+      }
 
-      String codeJson = dataSource.getBroadband(countyCode, stateCode);
+      String codeJson = dataSource.getBroadband(countyCode, stateCode); // Census API call
       responseMap.put("result", "success");
       responseMap.put("broadband", codeJson);
       responseMap.put("time", LocalDateTime.now());

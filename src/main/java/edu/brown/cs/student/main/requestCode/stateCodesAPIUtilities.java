@@ -68,8 +68,6 @@ public class stateCodesAPIUtilities {
     } catch (IOException e) {
       e.printStackTrace();
 
-      //// I know this is bad, will fix later
-
       return null;
     }
   }
