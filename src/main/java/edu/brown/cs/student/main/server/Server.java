@@ -2,6 +2,7 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
+import edu.brown.cs.student.main.GlobalGlove;
 import edu.brown.cs.student.main.broadCode.BroadbandHandler;
 import edu.brown.cs.student.main.broadCode.RealDatasource;
 import edu.brown.cs.student.main.loadCode.LoadHandler;
@@ -21,11 +22,12 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
+    GlobalGlove globalFile = new GlobalGlove();
     // Setting up the handler for the GET /order and /activity endpoints
     Spark.get("request", new RequestHandler());
-    Spark.get("loadcsv", new LoadHandler());
-    Spark.get("viewcsv", new ViewHandler());
-    Spark.get("searchcsv", new SearchHandler());
+    Spark.get("loadcsv", new LoadHandler(globalFile));
+    Spark.get("viewcsv", new ViewHandler(globalFile));
+    Spark.get("searchcsv", new SearchHandler(globalFile));
     Spark.get("broadband", new BroadbandHandler(new RealDatasource()));
     Spark.init();
     Spark.awaitInitialization();

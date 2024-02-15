@@ -34,7 +34,31 @@ public class Search {
     if (data.isEmpty()) {
       throw new RuntimeException("No data from CSV was able to be parsed!");
     }
+    if (hasHeaders) {
+      data.remove(0);
+    }
+    if (searchType == SearchType.ALL) {
+      this.result = this.searchData(data, searchValue);
+    } else {
+      int colIndex = this.getColIndex(data, colIdentifier, searchType);
+      this.result = this.searchData(data, searchValue, colIndex);
+    }
+  }
+
+  public Search(
+      List<List<String>> data,
+      String searchValue,
+      boolean hasHeaders,
+      String colIdentifier,
+      SearchType searchType) {
+    this.searchValue = searchValue;
+
+    // error check: Nothing was parsed
+    if (data.isEmpty()) {
+      throw new RuntimeException("No data from CSV was able to be parsed!");
+    }
     int colIndex = this.getColIndex(data, colIdentifier, searchType);
+
     if (hasHeaders) {
       data.remove(0);
     }
@@ -104,6 +128,7 @@ public class Search {
    */
   private int getColIndex(List<List<String>> data, String colIdentifier, SearchType searchType) {
     if (searchType == SearchType.NAME) {
+
       // loop through header row to find matching header name's index
       for (int i = 0; i < data.get(0).size(); i++) {
         if (data.get(0).get(i).toLowerCase().equals(colIdentifier)) {
