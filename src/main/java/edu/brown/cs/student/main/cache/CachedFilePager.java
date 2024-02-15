@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>This version uses a Guava cache class to manage the cache.
  */
-public class CachedFileSearcher implements Searcher<String, String> {
-  private final Searcher<String, String> wrappedSearcher;
+public class CachedFilePager implements Pager<String, String> {
+  private final Pager<String, String> wrappedSearcher;
   private final LoadingCache<String, Collection<String>> cache;
 
   /**
@@ -26,7 +26,7 @@ public class CachedFileSearcher implements Searcher<String, String> {
    *
    * @param toWrap the Searcher to wrap
    */
-  public CachedFileSearcher(Searcher<String, String> toWrap) {
+  public CachedFilePager(Pager<String, String> toWrap) {
     this.wrappedSearcher = toWrap;
 
     // Look at the docs -- there are lots of builder parameters you can use
@@ -47,13 +47,13 @@ public class CachedFileSearcher implements Searcher<String, String> {
                   public Collection<String> load(String key) {
                     System.out.println("called load for: " + key);
                     // If this isn't yet present in the cache, load it:
-                    return wrappedSearcher.search(key);
+                    return wrappedSearcher.page(key);
                   }
                 });
   }
 
   @Override
-  public Collection<String> search(String target) {
+  public Collection<String> page(String target) {
     // "get" is designed for concurrent situations; for today, use getUnchecked:
     Collection<String> result = cache.getUnchecked(target);
     // For debugging and demo (would remove in a "real" version):
