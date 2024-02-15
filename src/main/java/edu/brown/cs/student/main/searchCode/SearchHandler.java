@@ -53,8 +53,9 @@ public class SearchHandler implements Route {
         break;
     }
 
-
-    Search searcher = new Search(this.global.getGlobalFile(), term, Boolean.parseBoolean(header), index, searchType);
+    Search searcher =
+        new Search(
+            this.global.getGlobalFile(), term, Boolean.parseBoolean(header), index, searchType);
 
     // Print results
     List<List<String>> result = searcher.getResult();
