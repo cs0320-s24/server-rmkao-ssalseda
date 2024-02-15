@@ -8,7 +8,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import spark.Request;
@@ -51,7 +50,7 @@ public class RequestHandler implements Route {
       // Sends a request to the API and receives JSON back
       String codeJson = this.sendRequest();
       //       Deserializes JSON into an Activity
-      List<List<String>> code = stateCodesAPIUtilities.deserializeCode(codeJson);
+      Map<String, String> code = stateCodesAPIUtilities.deserializeCode(codeJson);
       // Adds results to the responseMap
       responseMap.put("result", "success");
       responseMap.put("codeMatch", code);
@@ -83,8 +82,9 @@ public class RequestHandler implements Route {
 
     // What's the difference between these two lines? Why do we return the body? What is useful from
     // the raw response (hint: how can we use the status of response)?
-    System.out.println(sentApiResponse);
-    System.out.println(sentApiResponse.body());
+    System.out.println(sentApiResponse); // prints this: (GET
+    // https://api.census.gov/data/2010/dec/sf1?get=NAME&for=state:*) 200
+    System.out.println(sentApiResponse.body()); // prints data
 
     return sentApiResponse.body();
   }

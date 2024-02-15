@@ -5,7 +5,9 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** */
 public class stateCodesAPIUtilities {
@@ -14,7 +16,7 @@ public class stateCodesAPIUtilities {
    * @param jsonActivity
    * @return List of list of strings representing the json data
    */
-  public static List<List<String>> deserializeCode(String jsonActivity) {
+  public static Map<String, String> deserializeCode(String jsonData) {
     try {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
@@ -22,14 +24,18 @@ public class stateCodesAPIUtilities {
       Type listType = Types.newParameterizedType(List.class, List.class, String.class);
       JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);
 
-      List<List<String>> rightCode = adapter.fromJson(jsonActivity);
+      // Deserialize JSON
+      List<List<String>> statesArray = adapter.fromJson(jsonData);
 
-      return rightCode;
-    }
-    // Returns an empty activity... Probably not the best handling of this error case...
-    // Notice an alternative error throwing case to the one done in OrderHandler. This catches
-    // the error instead of pushing it up.
-    catch (IOException e) {
+      Map<String, String> stateMap = new HashMap<>();
+
+      // fill the map
+      for (List<String> state : statesArray) {
+        stateMap.put(state.get(0), state.get(1));
+      }
+
+      return stateMap;
+    } catch (IOException e) {
       e.printStackTrace();
 
       //// I know this is bad, will fix later
