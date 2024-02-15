@@ -28,40 +28,26 @@ public class BroadbandHandler implements Route {
     Map<String, Object> responseMap = new HashMap<>();
 
     Set<String> params = request.queryParams();
-    System.out.println(params);
-    String county = request.queryParams("county");
-    System.out.println(county);
-    String state = request.queryParams("state");
-    System.out.println(state);
+    String stateName = request.queryParams("state");
+    String countyName = request.queryParams("county");
+    responseMap.put("state name", stateName);
+    responseMap.put("county name", countyName);
 
-    // add inputted query fields to response map
-    responseMap.put("state name", state);
-    responseMap.put("county name", county);
-
-    // Query for map of state name to state code
     try {
       String stateCodesJson = dataSource.getStateCodes();
-      Map<String, String> stateMap = stateCodesAPIUtilities.deserializeCode(stateCodesJson);
-    } catch (Exception e) {
+      Map<String, String> stateMap = stateCodesAPIUtilities.deserializeStates(stateCodesJson);
+      String stateCode = stateMap.get(stateName);
 
-    }
+      String countyCodesJson = dataSource.getCountyCodes(stateCode);
+      Map<String, String> countyMap = stateCodesAPIUtilities.deserializeCounties(countyCodesJson);
+      String countyCode = countyMap.get(countyName + ", " + stateName);
 
-    // We need to do this for counties as well
-    // state = statesMap.get(state)
-    // county = countiesMap.get(county)
-    // if either is null, then error_bad_request
-
-    try {
-      String codeJson = dataSource.getData(county, state);
+      String codeJson = dataSource.getBroadband(countyCode, stateCode);
       responseMap.put("result", "success");
+      responseMap.put("broadband", codeJson);
       responseMap.put("time", LocalDateTime.now());
-      // Deserialize JSON into rows of data
-      //      Map<String, String> code = stateCodesAPIUtilities.deserializeCode(codeJson);
-      //
-      //      responseMap.put("codeMatch", code);
     } catch (Exception e) {
-      e.printStackTrace();
-      responseMap.put("result", "error_datasource");
+
     }
     return responseMap;
   }

@@ -13,10 +13,10 @@ import java.util.Map;
 public class stateCodesAPIUtilities {
 
   /**
-   * @param jsonActivity
+   * @param jsonData
    * @return List of list of strings representing the json data
    */
-  public static Map<String, String> deserializeCode(String jsonData) {
+  public static Map<String, String> deserializeStates(String jsonData) {
     try {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
@@ -25,16 +25,46 @@ public class stateCodesAPIUtilities {
       JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);
 
       // Deserialize JSON
-      List<List<String>> statesArray = adapter.fromJson(jsonData);
+      List<List<String>> itemsArray = adapter.fromJson(jsonData);
 
-      Map<String, String> stateMap = new HashMap<>();
+      Map<String, String> codeMap = new HashMap<>();
 
       // fill the map
-      for (List<String> state : statesArray) {
-        stateMap.put(state.get(0), state.get(1));
+      for (List<String> state : itemsArray) {
+        codeMap.put(state.get(0), state.get(1));
       }
+      return codeMap;
+    } catch (IOException e) {
+      e.printStackTrace();
 
-      return stateMap;
+      //// I know this is bad, will fix later
+
+      return null;
+    }
+  }
+
+  /**
+   * @param jsonData
+   * @return List of list of strings representing the json data
+   */
+  public static Map<String, String> deserializeCounties(String jsonData) {
+    try {
+      // Initializes Moshi
+      Moshi moshi = new Moshi.Builder().build();
+
+      Type listType = Types.newParameterizedType(List.class, List.class, String.class);
+      JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);
+
+      // Deserialize JSON
+      List<List<String>> countiesArray = adapter.fromJson(jsonData);
+
+      Map<String, String> countyMap = new HashMap<>();
+
+      // fill the map
+      for (List<String> county : countiesArray) {
+        countyMap.put(county.get(0), county.get(2));
+      }
+      return countyMap;
     } catch (IOException e) {
       e.printStackTrace();
 

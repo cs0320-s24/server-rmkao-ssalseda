@@ -50,7 +50,7 @@ public class RequestHandler implements Route {
       // Sends a request to the API and receives JSON back
       String codeJson = this.sendRequest();
       //       Deserializes JSON into an Activity
-      Map<String, String> code = stateCodesAPIUtilities.deserializeCode(codeJson);
+      Map<String, String> code = stateCodesAPIUtilities.deserializeStates(codeJson);
       // Adds results to the responseMap
       responseMap.put("result", "success");
       responseMap.put("codeMatch", code);

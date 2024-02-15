@@ -10,7 +10,7 @@ public class MockedDatasource implements Datasource {
   public MockedDatasource() {}
 
   @Override
-  public String getData(String county, String state) {
+  public String getBroadband(String county, String state) {
     return null;
   }
 
