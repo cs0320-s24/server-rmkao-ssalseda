@@ -3,7 +3,6 @@ package edu.brown.cs.student.main.broadCode;
 import edu.brown.cs.student.main.GlobalCache;
 import edu.brown.cs.student.main.cache.CachedFilePager;
 import edu.brown.cs.student.main.cache.FilePager;
-import edu.brown.cs.student.main.cache.Pager;
 import edu.brown.cs.student.main.server.Datasource;
 import java.io.IOException;
 import java.net.URI;
@@ -15,7 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RealDatasource implements Datasource {
-private GlobalCache cacheSys;
+  private GlobalCache cacheSys;
+
   public RealDatasource(GlobalCache cacheSys) {
     this.cacheSys = cacheSys;
   }
@@ -62,18 +62,19 @@ private GlobalCache cacheSys;
             + county
             + "&in=state:"
             + state;
-//    HttpRequest buildApiRequest =
-//        HttpRequest.newBuilder().uri(new URI(constructedString)).GET().build();
+    //    HttpRequest buildApiRequest =
+    //        HttpRequest.newBuilder().uri(new URI(constructedString)).GET().build();
 
     // Send that API request then store the response in this variable. Note the generic type.
-    return new CachedFilePager(new FilePager(), this.cacheSys, constructedString).pager(constructedString);
+    return new CachedFilePager(new FilePager(), this.cacheSys, constructedString)
+        .pager(constructedString);
     //    new CachedFilePager(HttpClient.newBuilder().build()
     //        .send(buildApiRequest, HttpResponse.BodyHandlers.ofString()));
 
   }
 
-//  private String camo(CachedFilePager cachedFilePager, String key) throws ExecutionException {
-//    return cachedFilePager.pager(key);
-//  }
+  //  private String camo(CachedFilePager cachedFilePager, String key) throws ExecutionException {
+  //    return cachedFilePager.pager(key);
+  //  }
 
 }

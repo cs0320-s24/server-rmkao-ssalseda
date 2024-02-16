@@ -21,6 +21,7 @@ public class Server {
 
   /**
    * All the server's work to set up the API.
+   *
    * @param args
    */
   public static void main(String[] args) {
@@ -43,8 +44,8 @@ public class Server {
     Spark.get("searchcsv", new SearchHandler(globalFile));
     Spark.get("broadband", new BroadbandHandler(new RealDatasource(PlentyCache)));
 
-// Wildcard route for handling requests to undefined endpoints
-//    Spark.get("*", (req, res) -> "Invalid Endpoint!");
+    // Wildcard route for handling requests to undefined endpoints
+    //    Spark.get("*", (req, res) -> "Invalid Endpoint!");
 
     Spark.init();
     Spark.awaitInitialization();

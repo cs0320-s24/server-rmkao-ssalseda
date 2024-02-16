@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
 
 /**
-
  * @param <REQUEST> the type of a sent request
  * @param <RESPONSE> the type of the value being received
  */

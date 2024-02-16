@@ -13,20 +13,21 @@ import spark.Response;
 import spark.Route;
 
 /**
- * this handler serves the purposes of loading files
- * of the format http://localhost:3232/loadcsv?filepath=Data/run
+ * this handler serves the purposes of loading files of the format
+ * http://localhost:3232/loadcsv?filepath=Data/run
  * http://localhost:3232/loadcsv?filepath=/Users/samsalseda/Desktop/cs%20320/server-rmkao-ssalseda/src/test/postsecondary_education.csv
  */
 //
 public class LoadHandler implements Route {
   private GlobalGlove global;
-// set up global variable to load in data
+  // set up global variable to load in data
   public LoadHandler(GlobalGlove global) {
     this.global = global;
   }
 
   /**
    * find, load, and parse any requested CSV file
+   *
    * @param request
    * @param response
    * @return a response map with the proper file

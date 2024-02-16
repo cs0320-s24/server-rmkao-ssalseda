@@ -5,14 +5,13 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-/**
- * and interface that dictates the needed methods for all related to datasource
- */
+/** and interface that dictates the needed methods for all related to datasource */
 public interface Datasource {
 
   /**
    * Retrieval function that uses many helpers to find the broadband information of a specific
    * county in a given state.
+   *
    * @param county County of requested information.
    * @param state State in which county is.
    * @return a HashMap responseMap containing the data.
@@ -26,6 +25,7 @@ public interface Datasource {
 
   /**
    * gets the state codes
+   *
    * @return returns the code pairs
    * @throws URISyntaxException
    * @throws IOException
@@ -35,6 +35,7 @@ public interface Datasource {
 
   /**
    * performs a call to get the state codes
+   *
    * @param state
    * @return state codes
    * @throws URISyntaxException
@@ -43,5 +44,4 @@ public interface Datasource {
    */
   public String getCountyCodes(String state)
       throws URISyntaxException, IOException, InterruptedException;
-
 }

@@ -25,5 +25,4 @@ public class MockedDatasource implements Datasource {
       throws URISyntaxException, IOException, InterruptedException {
     return null;
   }
-
 }

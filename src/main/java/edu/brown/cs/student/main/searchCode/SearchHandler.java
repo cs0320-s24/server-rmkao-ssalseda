@@ -11,39 +11,38 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-/**
- * Handles all things related to searching a loaded CSV file.
- */
+/** Handles all things related to searching a loaded CSV file. */
 public class SearchHandler implements Route {
   private GlobalGlove global;
 
   /**
    * initializes the global data as it will be used to search
+   *
    * @param globalFile
    */
   public SearchHandler(GlobalGlove globalFile) {
     this.global = globalFile;
   }
 
-
   /*
-  this is likely the most complicated of the link forms. It must follow the format of
-  http://localhost:3232/searchcsv?searchby=    &index=    &header=    &term=   \
-  Where searchBy is either "column", "all", or "name".
-  index is a number a header name or "none"
-  header is "true" or "false" indicating the presence of headers.
-  term is the search term.
+    this is likely the most complicated of the link forms. It must follow the format of
+    http://localhost:3232/searchcsv?searchby=    &index=    &header=    &term=   \
+    Where searchBy is either "column", "all", or "name".
+    index is a number a header name or "none"
+    header is "true" or "false" indicating the presence of headers.
+    term is the search term.
 
-  for example:
-http://localhost:3232/searchcsv?searchby=all&index=1Race&header=false&term=Asian
+    for example:
+  http://localhost:3232/searchcsv?searchby=all&index=1Race&header=false&term=Asian
 
-http://localhost:3232/searchcsv?searchby=column&index=8&header=false&term=men
+  http://localhost:3232/searchcsv?searchby=column&index=8&header=false&term=men
 
 
-   */
+     */
 
   /**
    * Returns a responseMap with the requested information to be passed ot viewcsv.
+   *
    * @param request
    * @param response
    * @return
@@ -80,8 +79,9 @@ http://localhost:3232/searchcsv?searchby=column&index=8&header=false&term=men
 
     try {
       // Create a Search object
-      Search searcher = new Search(
-          this.global.getGlobalFile(), term, Boolean.parseBoolean(header), index, searchType);
+      Search searcher =
+          new Search(
+              this.global.getGlobalFile(), term, Boolean.parseBoolean(header), index, searchType);
 
       List<List<String>> result = searcher.getResult();
       responseMap.put("result", "success");
@@ -98,15 +98,11 @@ http://localhost:3232/searchcsv?searchby=column&index=8&header=false&term=men
       responseMap.put("searchType", searchType);
       return responseMap;
 
-
     } catch (Exception e) {
 
       responseMap.put("result", "error_bad_request");
       return responseMap;
     }
-
-
-
   }
   // given search term, the loaded csv will return all relevant rows as a json. Should allow all
   // parameters that are used in regular search (column/whole, index, term)

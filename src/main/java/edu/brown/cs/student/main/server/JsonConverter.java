@@ -9,6 +9,7 @@ public class JsonConverter {
 
   /**
    * Serializes a standard string into a JSON
+   *
    * @param data
    * @return a new json string
    */

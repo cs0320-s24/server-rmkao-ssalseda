@@ -10,14 +10,14 @@ import spark.Route;
 
 /**
  * this handler is in charge of allowing the end user to see the entirety of the data that was
- * loaded by the API.
- * it is simply accessed by http://localhost:3232/viewcsv
+ * loaded by the API. it is simply accessed by http://localhost:3232/viewcsv
  */
 public class ViewHandler implements Route {
   private GlobalGlove global;
 
   /**
    * initializes file to be viewed
+   *
    * @param globalFile loads file
    */
   public ViewHandler(GlobalGlove globalFile) {
@@ -26,6 +26,7 @@ public class ViewHandler implements Route {
 
   /**
    * Handle does the bulk of the work to transfer the file into a responseMap ready for deployment
+   *
    * @param request
    * @param response
    * @return the responseMap for printing
@@ -45,11 +46,4 @@ public class ViewHandler implements Route {
     responseMap.put("time of retrieval", this.global.getTime());
     return responseMap;
   }
-  // converts load CSV file to JSON and sends it
-
-  //  To keep the format simple, all responses must be serializations of a Map<String, Object>
-  // object.
-  //  For all replies, the map must contain a "result" field with value "success" in case of success
-  //  or an error code in the case of an error: (see sprint doc)
-
 }
