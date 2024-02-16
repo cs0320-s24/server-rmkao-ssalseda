@@ -9,12 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** */
+/**
+ * This class uses Moshi to deserialize a JSON strings into usable maps.
+ */
 public class stateCodesAPIUtilities {
 
   /**
-   * @param jsonData
-   * @return List of list of strings representing the json data
+   * This function deserializes a JSON containing states and their corresponding codes into a map.
+   * @param jsonData the JSON string
+   * @return a Map that maps every state's name to its code
+   * @throws IndexOutOfBoundsException if the state name or code could not be accessed
+   * @throws IOException if the moshi adapter cannot initially deserialize the JSON
    */
   public static Map<String, String> deserializeStates(String jsonData)
       throws IndexOutOfBoundsException, IOException {
@@ -41,8 +46,11 @@ public class stateCodesAPIUtilities {
   }
 
   /**
-   * @param jsonData
-   * @return List of list of strings representing the json data
+   * This function deserializes a JSON containing counties and their corresponding codes into a map.
+   * @param jsonData the JSON string
+   * @return a Map that maps each county name to its code
+   * @throws IndexOutOfBoundsException if the county name or code could not be accessed
+   * @throws IOException if the moshi adapter cannot initially deserialize the JSON
    */
   public static Map<String, String> deserializeCounties(String jsonData)
       throws IndexOutOfBoundsException, IOException {

@@ -12,13 +12,27 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * This class handles the 'loadcsv' endpoint.
+ */
 public class LoadHandler implements Route {
   private GlobalGlove global;
 
+  /**
+   * This constructor saves the global loaded file object locally
+   * @param global the global loaded file object
+   */
   public LoadHandler(GlobalGlove global) {
     this.global = global;
   }
 
+  /**
+   * This method uses a CSVParser to parse a given filepath and then saves the result to
+   * a global object.
+   * @return a map containing whether the loading was successful, the filepath, and the time the
+   * file was loaded.
+   * @throws Exception if the file could not be found
+   */
   @Override
   public Object handle(Request request, Response response) throws Exception {
     String filePath = request.queryParams("filepath");

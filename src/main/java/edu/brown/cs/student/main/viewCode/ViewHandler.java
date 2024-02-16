@@ -8,13 +8,25 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * This class handles the 'viewcsv' endpoint.
+ */
 public class ViewHandler implements Route {
   private GlobalGlove global;
 
+  /**
+   * This constructor saves the global loaded file object locally
+   * @param globalFile the global loaded file object
+   */
   public ViewHandler(GlobalGlove globalFile) {
     this.global = globalFile;
   }
 
+  /**
+   * This method converts the loaded csv into a JSON and displays it through the response map
+   * @return a response map containing the result status, the json data, and the time of retrieval
+   * @throws Exception
+   */
   @Override
   public Object handle(Request request, Response response) throws Exception {
     Map<String, Object> responseMap = new HashMap<>();

@@ -11,9 +11,16 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * This class handles the 'searchcsv' endpoint.
+ */
 public class SearchHandler implements Route {
   private GlobalGlove global;
 
+  /**
+   * This constructor saves the global loaded file object locally
+   * @param globalFile the global loaded file object
+   */
   public SearchHandler(GlobalGlove globalFile) {
     this.global = globalFile;
   }
@@ -24,9 +31,15 @@ public class SearchHandler implements Route {
   // index= (number),
   // header= (string)
   // term = (string)
+
+  /**
+   * This method takes input through the Web API and then uses the Search class to search through
+   * the currently loaded CSV file.
+   * @return A response map containing the search specifications and all relevant rows
+   * @throws Exception
+   */
   @Override
   public Object handle(Request request, Response response) throws Exception {
-
     Map<String, Object> responseMap = new HashMap<>();
     if (this.global.checkFull()) {
       responseMap.put("result", "no file loaded");
