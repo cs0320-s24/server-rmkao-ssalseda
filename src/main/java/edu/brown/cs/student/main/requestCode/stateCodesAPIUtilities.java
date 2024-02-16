@@ -16,7 +16,8 @@ public class stateCodesAPIUtilities {
    * @param jsonData
    * @return List of list of strings representing the json data
    */
-  public static Map<String, String> deserializeStates(String jsonData) {
+  public static Map<String, String> deserializeStates(String jsonData)
+      throws IndexOutOfBoundsException, IOException {
     try {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
@@ -35,11 +36,7 @@ public class stateCodesAPIUtilities {
       }
       return codeMap;
     } catch (IOException e) {
-      e.printStackTrace();
-
-      //// I know this is bad, will fix later
-
-      return null;
+      throw new IOException("Could not deserialize JSON of state codes: " + e.getMessage());
     }
   }
 
@@ -47,7 +44,8 @@ public class stateCodesAPIUtilities {
    * @param jsonData
    * @return List of list of strings representing the json data
    */
-  public static Map<String, String> deserializeCounties(String jsonData) {
+  public static Map<String, String> deserializeCounties(String jsonData)
+      throws IndexOutOfBoundsException, IOException {
     try {
       // Initializes Moshi
       Moshi moshi = new Moshi.Builder().build();
@@ -66,9 +64,7 @@ public class stateCodesAPIUtilities {
       }
       return countyMap;
     } catch (IOException e) {
-      e.printStackTrace();
-
-      return null;
+      throw new IOException("Could not deserialize JSON of county codes: " + e.getMessage());
     }
   }
 }

@@ -2,6 +2,8 @@ package edu.brown.cs.student.main.broadCode;
 
 import edu.brown.cs.student.main.requestCode.stateCodesAPIUtilities;
 import edu.brown.cs.student.main.server.Datasource;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +13,6 @@ import spark.Response;
 import spark.Route;
 
 public class BroadbandHandler implements Route {
-  // must return data given state and county parameters
-
-  //  To keep the format simple, all responses must be serializations of a Map<String, Object>
-  // object.
-  //  For all replies, the map must contain a "result" field with value "success" in case of success
-  //  or an error code in the case of an error: (see sprint doc)
   private Datasource dataSource;
 
   public BroadbandHandler(Datasource dataSource) {
@@ -44,7 +40,8 @@ public class BroadbandHandler implements Route {
     responseMap.put("county name", countyName);
 
     try {
-      String stateCodesJson = dataSource.getStateCodes(); // Census API call
+      String stateQuery = "https://api.census.gov/data/2010/dec/sf1?get=NAME&for=state:*";
+      String stateCodesJson = dataSource.getData(stateQuery); // Census API call for state codes
       Map<String, String> stateMap = stateCodesAPIUtilities.deserializeStates(stateCodesJson);
       String stateCode = stateMap.get(stateName);
       if (stateCode == null) {
@@ -53,7 +50,9 @@ public class BroadbandHandler implements Route {
         return responseMap;
       }
 
-      String countyCodesJson = dataSource.getCountyCodes(stateCode); // Census API call
+      String countyQuery =
+          "https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*&in=state:" + stateCode;
+      String countyCodesJson = dataSource.getData(countyQuery); // Census API call
       Map<String, String> countyMap = stateCodesAPIUtilities.deserializeCounties(countyCodesJson);
       String countyCode = countyMap.get(countyName + ", " + stateName);
       if (countyCode == null) {
@@ -62,11 +61,22 @@ public class BroadbandHandler implements Route {
         return responseMap;
       }
 
-      String codeJson = dataSource.getBroadband(countyCode, stateCode); // Census API call
+      String broadbandQuery =
+          "https://api.census.gov/data/2021/acs/acs1/subject/variables?get=NAME,S2802_C03_022E&for=county:"
+              + countyCode
+              + "&in=state:"
+              + stateCode;
+      String codeJson = dataSource.getData(broadbandQuery); // Census API call
       responseMap.put("result", "success");
       responseMap.put("broadband", codeJson);
       responseMap.put("time", LocalDateTime.now());
-    } catch (Exception e) {
+    } catch (IndexOutOfBoundsException | IOException e) {
+      System.err.println(e.getMessage());
+      responseMap.put("result", "error_bad_json");
+    } catch (URISyntaxException e) {
+      System.err.println("Bad request: " + e.getMessage());
+      responseMap.put("result", "error_bad_request");
+    } catch (InterruptedException e) {
 
     }
     return responseMap;

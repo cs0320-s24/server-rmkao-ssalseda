@@ -11,4 +11,6 @@ public interface Datasource {
 
   public String getCountyCodes(String state)
       throws URISyntaxException, IOException, InterruptedException;
+
+  public String getData(String query) throws URISyntaxException, IOException, InterruptedException;
 }

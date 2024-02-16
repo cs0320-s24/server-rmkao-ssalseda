@@ -1,8 +1,6 @@
 package edu.brown.cs.student.main.broadCode;
 
 import edu.brown.cs.student.main.server.Datasource;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class MockedDatasource implements Datasource {
   private String mockedData;
@@ -20,8 +18,12 @@ public class MockedDatasource implements Datasource {
   }
 
   @Override
-  public String getCountyCodes(String state)
-      throws URISyntaxException, IOException, InterruptedException {
+  public String getCountyCodes(String state) {
+    return null;
+  }
+
+  @Override
+  public String getData(String query) {
     return null;
   }
 }

@@ -60,4 +60,15 @@ public class RealDatasource implements Datasource {
 
     return sentApiResponse.body();
   }
+
+  @Override
+  public String getData(String query) throws URISyntaxException, IOException, InterruptedException {
+    HttpRequest buildApiRequest = HttpRequest.newBuilder().uri(new URI(query)).GET().build();
+
+    // Send that API request then store the response in this variable. Note the generic type.
+    HttpResponse<String> sentApiResponse =
+        HttpClient.newBuilder().build().send(buildApiRequest, HttpResponse.BodyHandlers.ofString());
+
+    return sentApiResponse.body();
+  }
 }
