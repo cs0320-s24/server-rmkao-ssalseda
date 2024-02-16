@@ -3,9 +3,12 @@ package edu.brown.cs.student.main.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.brown.cs.student.main.GlobalCache;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -14,56 +17,40 @@ import java.util.concurrent.TimeUnit;
  * interface hasn't changed at all. This is an example of the proxy pattern; callers will interact
  * with the CachedFileServer, rather than the "real" data source.
  *
- * <p>This version uses a Guava cache class to manage the cache.
  */
-public class CachedFilePager implements Pager<String, HttpResponse<String>> {
-  private final Pager<String, HttpResponse<String>> wrappedSearcher;
-  private final LoadingCache<String, HttpResponse<String>> cache;
+public class CachedFilePager implements Pager<String, Map<String, Object>> {
+  public Map<String, Object> answer;
 
   /**
-   * Proxy class: wrap an instance of Searcher (of any kind) and cache its results.
    *
-   * <p>There are _many_ ways to implement this! We could use a plain HashMap, but then we'd have to
-   * handle "eviction" ourselves. Lots of libraries exist. We're using Guava here, to demo the
-   * strategy pattern.
+   * Using guava to manage evictions, but settled on manual additions.
    *
    * @param toWrap the Searcher to wrap
+   * @param cache
    */
-  public CachedFilePager(Pager<String, HttpResponse<String>> toWrap) {
-    this.wrappedSearcher = toWrap;
-
-    // Look at the docs -- there are lots of builder parameters you can use
-    //   including ones that affect garbage-collection (not needed for Server).
-    this.cache =
-        CacheBuilder.newBuilder()
-            // How many entries maximum in the cache?
-            .maximumSize(25)
-            // How long should entries remain in the cache?
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            // Keep statistical info around for profiling purposes
-            .recordStats()
-            .build(
-                // Strategy pattern: how should the cache behave when
-                // it's asked for something it doesn't have?
-                new CacheLoader<>() {
-                  @Override
-
-                  public HttpResponse<String> load(String key)
-                      throws IOException, InterruptedException, URISyntaxException, ExecutionException {
-                    System.out.println("called load for: " + key);
-                    // If this isn't yet present in the cache, load it:
-                    return wrappedSearcher.pager(key);
-                  }
-                });
+  public CachedFilePager(Pager<String, String> toWrap, GlobalCache GlobeCash, String guide)
+      throws IOException, URISyntaxException, ExecutionException, InterruptedException {
+    // simply calls get method if already present
+    this.answer = GlobeCash.cache.getIfPresent(guide);
+    // builds out a responseMap for a new search and uploads it to the cache.
+    if(this.answer == null){
+      this.answer = new HashMap<>();
+      String value = toWrap.pager(guide);
+      this.answer.put("result", "success");
+      this.answer.put("broadband", value);
+      this.answer.put("time", LocalDateTime.now());
+      GlobeCash.GlobalAdd(guide, this.answer);
+    }
+    GlobeCash.print();
   }
 
-  @Override
-  public HttpResponse<String> pager(String target) throws ExecutionException {
-    // "get" is designed for concurrent situations; for today, use getUnchecked:
-    HttpResponse<String> result = cache.getUnchecked(target);
-    // For debugging and demo (would remove in a "real" version):
-    System.out.println(cache.stats());
-    return result;
+  /**
+   *
+   * @param s
+   * @return produces answer
+   */
+  public Map<String, Object> pager(String s) {
+    return this.answer;
   }
 
   // This would have been a more direct way to start on building a proxy

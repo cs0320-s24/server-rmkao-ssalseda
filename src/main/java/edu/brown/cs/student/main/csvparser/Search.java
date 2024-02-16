@@ -44,7 +44,7 @@ public class Search {
       this.result = this.searchData(data, searchValue, colIndex);
     }
   }
-
+/// special search function that takes raw data not CSVParser
   public Search(
       List<List<String>> data,
       String searchValue,

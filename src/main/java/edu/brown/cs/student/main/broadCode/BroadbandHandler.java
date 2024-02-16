@@ -62,10 +62,12 @@ public class BroadbandHandler implements Route {
         return responseMap;
       }
 
-      String codeJson = dataSource.getBroadband(countyCode, stateCode); // Census API call
-      responseMap.put("result", "success");
-      responseMap.put("broadband", codeJson);
-      responseMap.put("time", LocalDateTime.now());
+      Map<String, Object> fromCache = dataSource.getBroadband(countyCode, stateCode); // Census API call
+
+      return fromCache;
+//      responseMap.put("result", "success");
+//      responseMap.put("broadband", codeJson);
+//      responseMap.put("time", LocalDateTime.now());
     } catch (Exception e) {
 
     }

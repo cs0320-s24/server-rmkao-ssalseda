@@ -7,6 +7,11 @@ import java.util.List;
 
 public class JsonConverter {
 
+  /**
+   * Serializes a standard string into a JSON
+   * @param data
+   * @return a new json string
+   */
   public static String serializeToJson(List<List<String>> data) {
     Moshi moshi = new Moshi.Builder().build();
     JsonAdapter<List<List<String>>> adapter =

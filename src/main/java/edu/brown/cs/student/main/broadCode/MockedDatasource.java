@@ -3,6 +3,7 @@ package edu.brown.cs.student.main.broadCode;
 import edu.brown.cs.student.main.server.Datasource;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 public class MockedDatasource implements Datasource {
   private String mockedData;
@@ -10,7 +11,7 @@ public class MockedDatasource implements Datasource {
   public MockedDatasource() {}
 
   @Override
-  public String getBroadband(String county, String state) {
+  public Map<String, Object> getBroadband(String county, String state) {
     return null;
   }
 

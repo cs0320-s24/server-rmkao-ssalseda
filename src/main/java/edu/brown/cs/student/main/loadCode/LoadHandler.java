@@ -13,28 +13,32 @@ import spark.Response;
 import spark.Route;
 
 /**
- * This class is used to illustrate how to build and send a GET request then prints the response. It
- * will also demonstrate a simple Moshi deserialization from online data.
+ * this handler serves the purposes of loading files
+ * of the format http://localhost:3232/loadcsv?filepath=Data/run
+ * http://localhost:3232/loadcsv?filepath=/Users/samsalseda/Desktop/cs%20320/server-rmkao-ssalseda/src/test/postsecondary_education.csv
  */
-// TODO 1: Check out this Handler. How can we make it only get activities based on participant #?
-// See Documentation here: https://www.boredapi.com/documentation
-
-// http://localhost:3232/loadcsv?filepath=Hello_world
+//
 public class LoadHandler implements Route {
   private GlobalGlove global;
-
+// set up global variable to load in data
   public LoadHandler(GlobalGlove global) {
     this.global = global;
   }
 
+  /**
+   * find, load, and parse any requested CSV file
+   * @param request
+   * @param response
+   * @return a response map with the proper file
+   */
   @Override
-  public Object handle(Request request, Response response) throws Exception {
+  public Object handle(Request request, Response response) {
     String filePath = request.queryParams("filepath");
 
     Map<String, Object> responseMap = new HashMap<>();
 
     try (FileReader transit = new FileReader(filePath)) {
-
+      // parse is a success
       CSVParser<List<String>> parser = new CSVParser(transit, new RowCreator());
       this.global.setGlobalFile(parser.parse());
       responseMap.put("result", "success");
@@ -47,9 +51,7 @@ public class LoadHandler implements Route {
       // map indicating success and time only
     } catch (Exception e) {
       e.printStackTrace();
-      // This is a relatively unhelpful exception message. An important part of this sprint will be
-      // in learning to debug correctly by creating your own informative error messages where Spark
-      // falls short.
+      // it was not found
       responseMap.put("result", "File not found");
       responseMap.put("time", LocalDateTime.now());
       return responseMap;
