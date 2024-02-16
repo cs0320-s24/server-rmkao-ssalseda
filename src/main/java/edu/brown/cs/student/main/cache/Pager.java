@@ -1,6 +1,8 @@
 package edu.brown.cs.student.main.cache;
 
-import java.util.Collection;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Notice that there are many kinds of search that might provide this interface. The interface isn't
@@ -14,5 +16,6 @@ import java.util.Collection;
  * @param <RESPONSE> the type of the value being searched for
  */
 public interface Pager<REQUEST, RESPONSE> {
-  Collection<RESPONSE> page(REQUEST request);
+  RESPONSE pager(REQUEST request)
+      throws IOException, InterruptedException, URISyntaxException, ExecutionException;
 }
