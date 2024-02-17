@@ -34,8 +34,8 @@ public class GlobalGlove {
    *
    * @return the time when the file was read
    */
-  public LocalDateTime getTime() {
-    return this.time;
+  public String getTime() {
+    return this.time.toString();
   }
 
   /**

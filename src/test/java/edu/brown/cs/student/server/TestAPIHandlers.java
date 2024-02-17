@@ -1,5 +1,7 @@
 package edu.brown.cs.student.server;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -17,6 +19,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import okio.Buffer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,57 +80,12 @@ public class TestAPIHandlers {
     return clientConnection;
   }
 
-  //  @Test
-  //  public void testLoadCSV() throws IOException {
-  //    HttpURLConnection clientConnection =
-  //        tryRequest("loadcsv?filepath=src/test/postsecondary_education.csv");
-  //    // Get an OK response
-  //    assertEquals(200, clientConnection.getResponseCode());
-  //
-  //    // We'll use okio's Buffer class here
-  //    System.out.println(clientConnection.getInputStream());
-  //    Map<String, Object> response =
-  //        this.adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-  //    assertEquals("success", response.get("result"));
-  //    assertEquals("src/test/postsecondary_education.csv", response.get("activity"));
-  //
-  //    clientConnection.disconnect();
-  //  }
-  //
-  //  @Test
-  //  public void testViewCSV() throws IOException {
-  //    // load first
-  //    tryRequest("loadcsv?filepath=src/test/postsecondary_education.csv");
-  //    // viewcsv
-  //    HttpURLConnection clientConnection = tryRequest("viewcsv");
-  //    // Get an OK response
-  //    assertEquals(200, clientConnection.getResponseCode());
-  //
-  //    // We'll use okio's Buffer class here
-  //    System.out.println(clientConnection.getInputStream());
-  //    Map<String, Object> response =
-  //        this.adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-  //    assertEquals("success", response.get("result"));
-  //
-  //    clientConnection.disconnect();
-  //  }
-  //
-  //  @Test
-  //  public void testBroadband() throws IOException {
-  //    HttpURLConnection clientConnection =
-  //        tryRequest("broadband?state=California&county=Kings%20County");
-  //    // Get an OK response
-  //    assertEquals(200, clientConnection.getResponseCode());
-  //
-  //    Moshi moshi = new Moshi.Builder().build();
-  //
-  //    // We'll use okio's Buffer class here
-  //    System.out.println(clientConnection.getInputStream());
-  //    Map<String, Object> response =
-  //        this.adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-  //    assertEquals("success", response.get("result"));
-  //
-  //    // compare the
-  //    clientConnection.disconnect();
-  //  }
+  public void testLoadCSV() throws IOException {
+    HttpURLConnection clientConnection =
+        tryRequest("loadcsv?filepath=src/test/postsecondary_education.csv");
+    assertEquals(200, clientConnection.getResponseCode());
+    Map<String, Object> response =
+        adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+    assertEquals("success", response.get("result"));
+  }
 }

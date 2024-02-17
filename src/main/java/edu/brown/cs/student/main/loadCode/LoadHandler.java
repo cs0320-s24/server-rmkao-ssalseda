@@ -16,7 +16,7 @@ import spark.Route;
 /**
  * this handler serves the purposes of loading files of the format
  * http://localhost:3232/loadcsv?filepath=Data/run
- * http://localhost:3232/loadcsv?filepath=/Users/samsalseda/Desktop/cs%20320/server-rmkao-ssalseda/src/test/postsecondary_education.csv
+ * http://localhost:3232/loadcsv?filepath=src/test/postsecondary_education.csv
  */
 //
 public class LoadHandler implements Route {
@@ -45,7 +45,7 @@ public class LoadHandler implements Route {
       this.global.setGlobalFile(parser.parse());
       responseMap.put("result", "success");
       responseMap.put("activity", filePath);
-      responseMap.put("time", LocalDateTime.now());
+      responseMap.put("time", LocalDateTime.now().toString());
       this.global.setTime();
 
       return new WebAPIResponse(responseMap).serialize();
@@ -53,7 +53,7 @@ public class LoadHandler implements Route {
       e.printStackTrace();
       // it was not found
       responseMap.put("result", "File not found");
-      responseMap.put("time", LocalDateTime.now());
+      responseMap.put("time", LocalDateTime.now().toString());
       return responseMap;
     }
   }
