@@ -9,8 +9,8 @@ public record WebAPIResponse(Map<String, Object> responseMap) {
     try {
       // Initialize Moshi which takes in this class and returns it as JSON!
       Moshi moshi = new Moshi.Builder().build();
-      JsonAdapter<Map> adapter = moshi.adapter(Map.class);
-      return adapter.toJson(this.responseMap());
+      JsonAdapter<WebAPIResponse> adapter = moshi.adapter(WebAPIResponse.class);
+      return adapter.toJson(this);
     } catch (Exception e) {
       e.printStackTrace();
       throw e;
