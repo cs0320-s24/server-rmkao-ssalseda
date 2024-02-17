@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.requestCode;
+package edu.brown.cs.student.main.broadCode;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;

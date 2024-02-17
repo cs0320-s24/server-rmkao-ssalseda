@@ -45,13 +45,4 @@ public class CachedFilePager implements Pager<String, Map<String, Object>> {
   public Map<String, Object> pager(String s) {
     return this.answer;
   }
-
-  // This would have been a more direct way to start on building a proxy
-  //  (but I like using Guava's cache)
-  /*
-  public Collection<String> search(String target) {
-      // Pass through: call the wrapped object
-      return this.wrappedSearcher.searchLines(target);
-  }
-   */
 }

@@ -33,13 +33,13 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
     // global variables
-    GlobalCache PlentyCache = new GlobalCache();
+    GlobalCache globalCache = new GlobalCache();
     GlobalGlove globalFile = new GlobalGlove();
     // Setting up the handler for the all possible endpoints
     Spark.get("loadcsv", new LoadHandler(globalFile));
     Spark.get("viewcsv", new ViewHandler(globalFile));
     Spark.get("searchcsv", new SearchHandler(globalFile));
-    Spark.get("broadband", new BroadbandHandler(new RealDatasource(PlentyCache)));
+    Spark.get("broadband", new BroadbandHandler(new RealDatasource(), globalCache));
 
     Spark.init();
     Spark.awaitInitialization();

@@ -25,7 +25,7 @@ public class SearchHandler implements Route {
   }
 
   /*
-    this is likely the most complicated of the link forms. It must follow the format of
+    this is the most complicated of the link forms. It must follow the format of
     http://localhost:3232/searchcsv?searchby=    &index=    &header=    &term=   \
     Where searchBy is either "column", "all", or "name".
     index is a number a header name or "none"
