@@ -98,7 +98,7 @@ public class SearchHandler implements Route {
       responseMap.put("searchType", searchType);
       return new WebAPIResponse(responseMap).serialize();
     } catch (Exception e) {
-      responseMap.put("result", "error_bad_request");
+      responseMap.put("result", "error_bad_request: " + e.getMessage());
       return responseMap;
     }
   }
