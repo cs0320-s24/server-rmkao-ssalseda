@@ -39,11 +39,13 @@ this is likely the most complicated of the link forms. It must follow the format
     Where searchBy is either "column", "all", or "name".
     index is a number a header name or "none"
     header is "true" or "false" indicating the presence of headers.
+    if you are searching by column, your index must be an integer.
+    if you are searching by header, your index must be a string.
     term is the search term.
     for example:
   http://localhost:3232/searchcsv?searchby=all&index=1Race&header=false&term=Asian
   http://localhost:3232/searchcsv?searchby=column&index=8&header=false&term=men
-  http://localhost:3232/searchcsv?searchby=column&index=sex&header=true&term=men
+  http://localhost:3232/searchcsv?searchby=name&index=sex&header=true&term=men
 
   The last endpoint will be of the form "broadband" which uses API calls to convert state name and county name into state code and county code, then finally queries for broadband coverage using those codes.
   These calls will be of the following form:
