@@ -72,9 +72,4 @@ public class RealDatasource implements Datasource {
     //        .send(buildApiRequest, HttpResponse.BodyHandlers.ofString()));
 
   }
-
-  //  private String camo(CachedFilePager cachedFilePager, String key) throws ExecutionException {
-  //    return cachedFilePager.pager(key);
-  //  }
-
 }

@@ -80,12 +80,6 @@ public class RequestHandler implements Route {
     HttpResponse<String> sentApiResponse =
         HttpClient.newBuilder().build().send(buildApiRequest, HttpResponse.BodyHandlers.ofString());
 
-    // What's the difference between these two lines? Why do we return the body? What is useful from
-    // the raw response (hint: how can we use the status of response)?
-    System.out.println(sentApiResponse); // prints this: (GET
-    // https://api.census.gov/data/2010/dec/sf1?get=NAME&for=state:*) 200
-    System.out.println(sentApiResponse.body()); // prints data
-
     return sentApiResponse.body();
   }
 }

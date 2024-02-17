@@ -7,7 +7,6 @@ import edu.brown.cs.student.main.GlobalGlove;
 import edu.brown.cs.student.main.broadCode.BroadbandHandler;
 import edu.brown.cs.student.main.broadCode.RealDatasource;
 import edu.brown.cs.student.main.loadCode.LoadHandler;
-import edu.brown.cs.student.main.requestCode.RequestHandler;
 import edu.brown.cs.student.main.searchCode.SearchHandler;
 import edu.brown.cs.student.main.viewCode.ViewHandler;
 import spark.Spark;
@@ -18,7 +17,6 @@ import spark.Spark;
  * instantiating global variables.
  */
 public class Server {
-
   /**
    * All the server's work to set up the API.
    *
@@ -38,14 +36,10 @@ public class Server {
     GlobalCache PlentyCache = new GlobalCache();
     GlobalGlove globalFile = new GlobalGlove();
     // Setting up the handler for the all possible endpoints
-    Spark.get("request", new RequestHandler());
     Spark.get("loadcsv", new LoadHandler(globalFile));
     Spark.get("viewcsv", new ViewHandler(globalFile));
     Spark.get("searchcsv", new SearchHandler(globalFile));
     Spark.get("broadband", new BroadbandHandler(new RealDatasource(PlentyCache)));
-
-    // Wildcard route for handling requests to undefined endpoints
-    //    Spark.get("*", (req, res) -> "Invalid Endpoint!");
 
     Spark.init();
     Spark.awaitInitialization();
