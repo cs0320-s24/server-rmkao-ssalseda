@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main.cache;
 
 import edu.brown.cs.student.main.GlobalCache;
+import edu.brown.cs.student.main.broadCode.stateCodesAPIUtilities;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class CachedFilePager implements Pager<String, Map<String, Object>> {
       this.answer = new HashMap<>();
       String value = toWrap.pager(guide);
       this.answer.put("result", "success");
-      this.answer.put("broadband", value);
+      this.answer.put("broadband", stateCodesAPIUtilities.deserializeACS(value));
       this.answer.put("time", LocalDateTime.now().toString());
       globalCache.GlobalAdd(guide, this.answer);
     }
