@@ -75,4 +75,27 @@ public class stateCodesAPIUtilities {
       throw new IOException("Could not deserialize JSON of county codes: " + e.getMessage());
     }
   }
+
+  /**
+   * @param jsonActivity
+   * @return
+   */
+  public static List<List<String>> deserializeACS(String jsonActivity) throws IOException {
+    try {
+      // Initializes Moshi
+      Moshi moshi = new Moshi.Builder().build();
+
+      // Initializes an adapter to a list of list of string class then uses it to parse the JSON.
+
+      Type listType = Types.newParameterizedType(List.class, List.class, String.class);
+      JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);
+
+      return adapter.fromJson(jsonActivity);
+    }
+    catch (IOException e) {
+      throw new IOException("Could not deserialize search: " + e.getMessage());
+    }
+  }
+
+
 }
