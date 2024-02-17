@@ -3,7 +3,7 @@ package edu.brown.cs.student.main.searchCode;
 import edu.brown.cs.student.main.GlobalGlove;
 import edu.brown.cs.student.main.csvparser.Search;
 import edu.brown.cs.student.main.csvparser.SearchType;
-import edu.brown.cs.student.main.server.JsonConverter;
+import edu.brown.cs.student.main.server.WebAPIResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,17 +89,15 @@ public class SearchHandler implements Route {
       for (List<String> row : result) {
         System.out.println(row);
       }
-      responseMap.put("data", JsonConverter.serializeToJson(result));
+      responseMap.put("data", result);
       responseMap.put("time of retrieval", this.global.getTime());
       responseMap.put("searchBy", searchBy);
       responseMap.put("index", index);
       responseMap.put("header", header);
       responseMap.put("term", term);
       responseMap.put("searchType", searchType);
-      return responseMap;
-
+      return new WebAPIResponse(responseMap).serialize();
     } catch (Exception e) {
-
       responseMap.put("result", "error_bad_request");
       return responseMap;
     }

@@ -1,7 +1,7 @@
 package edu.brown.cs.student.main.viewCode;
 
 import edu.brown.cs.student.main.GlobalGlove;
-import edu.brown.cs.student.main.server.JsonConverter;
+import edu.brown.cs.student.main.server.WebAPIResponse;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -42,8 +42,8 @@ public class ViewHandler implements Route {
     }
 
     responseMap.put("result", "success");
-    responseMap.put("data", JsonConverter.serializeToJson(global.getGlobalFile()));
+    responseMap.put("data", global.getGlobalFile());
     responseMap.put("time of retrieval", this.global.getTime());
-    return responseMap;
+    return new WebAPIResponse(responseMap).serialize();
   }
 }

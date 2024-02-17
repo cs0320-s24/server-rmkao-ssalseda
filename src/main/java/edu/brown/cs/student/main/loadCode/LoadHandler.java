@@ -3,6 +3,7 @@ package edu.brown.cs.student.main.loadCode;
 import edu.brown.cs.student.main.GlobalGlove;
 import edu.brown.cs.student.main.csvparser.CSVParser;
 import edu.brown.cs.student.main.csvparser.RowCreator;
+import edu.brown.cs.student.main.server.WebAPIResponse;
 import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -47,9 +48,7 @@ public class LoadHandler implements Route {
       responseMap.put("time", LocalDateTime.now());
       this.global.setTime();
 
-      return responseMap;
-
-      // map indicating success and time only
+      return new WebAPIResponse(responseMap).serialize();
     } catch (Exception e) {
       e.printStackTrace();
       // it was not found

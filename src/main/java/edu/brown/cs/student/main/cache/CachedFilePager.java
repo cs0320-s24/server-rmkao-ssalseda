@@ -17,25 +17,28 @@ public class CachedFilePager implements Pager<String, Map<String, Object>> {
   public Map<String, Object> answer;
 
   /**
-   * Using guava to manage evictions, but settled on manual additions.
+   * This constructor performs the main functionality of the class. Using the guide string, it will
+   * retrieve any previous identical queries from the cache or make a new one if it hasn't been
+   * cached.
    *
-   * @param toWrap the Searcher to wrap
-   * @param cache
+   * @param toWrap the file pager
+   * @param globalCache the global cache
+   * @param guide the string to check against cache
    */
-  public CachedFilePager(Pager<String, String> toWrap, GlobalCache GlobeCash, String guide)
+  public CachedFilePager(Pager<String, String> toWrap, GlobalCache globalCache, String guide)
       throws IOException, URISyntaxException, ExecutionException, InterruptedException {
     // simply calls get method if already present
-    this.answer = GlobeCash.cache.getIfPresent(guide);
+    this.answer = globalCache.cache.getIfPresent(guide);
     // builds out a responseMap for a new search and uploads it to the cache.
     if (this.answer == null) {
       this.answer = new HashMap<>();
       String value = toWrap.pager(guide);
       this.answer.put("result", "success");
       this.answer.put("broadband", value);
-      this.answer.put("time", LocalDateTime.now());
-      GlobeCash.GlobalAdd(guide, this.answer);
+      this.answer.put("time", LocalDateTime.now().toString());
+      globalCache.GlobalAdd(guide, this.answer);
     }
-    GlobeCash.print();
+    globalCache.print();
   }
 
   /**

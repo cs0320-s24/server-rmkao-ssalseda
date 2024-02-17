@@ -3,6 +3,7 @@ package edu.brown.cs.student.main.broadCode;
 import edu.brown.cs.student.main.GlobalCache;
 import edu.brown.cs.student.main.cache.CachedFilePager;
 import edu.brown.cs.student.main.cache.FilePager;
+import edu.brown.cs.student.main.server.WebAPIResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -93,7 +94,7 @@ public class BroadbandHandler implements Route {
       Map<String, Object> fromCache =
           new CachedFilePager(new FilePager(), this.globalCache, constructedString)
               .pager(constructedString); // Census API call
-      return fromCache;
+      return new WebAPIResponse(fromCache).serialize();
     } catch (IndexOutOfBoundsException | IOException e) {
       System.err.println(e.getMessage());
       responseMap.put("result", "error_bad_json");
