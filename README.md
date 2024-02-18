@@ -17,6 +17,7 @@ After loading a CSV file, we store it as a global variable, with the data in a L
 # Errors/Bugs
 
 # Tests
+To run the tests, run 'mvn package'
 
 # How to
 To build this program, run 'mvn package' in the terminal. To run it, run './run' in the terminal. This will start a server where you can append the endpoint to the URL. For example, 'localhost:3232/viewcsv'. 
