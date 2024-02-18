@@ -91,11 +91,8 @@ public class stateCodesAPIUtilities {
       JsonAdapter<List<List<String>>> adapter = moshi.adapter(listType);
 
       return adapter.fromJson(jsonActivity);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new IOException("Could not deserialize search: " + e.getMessage());
     }
   }
-
-
 }
