@@ -1,12 +1,16 @@
 package edu.brown.cs.student.main.broadCode;
 
+import edu.brown.cs.student.main.GlobalCache;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MockedDatasource implements Datasource {
   private String mockedData;
 
   public MockedDatasource() {}
+
   @Override
   public String getData(String constructedString)
       throws URISyntaxException, IOException, InterruptedException {
@@ -35,5 +39,15 @@ public class MockedDatasource implements Datasource {
     } else {
       return "";
     }
+  }
+
+  @Override
+  public Map<String, Object> getBroadband(String constructedString, GlobalCache globalCache) {
+    Map<String, Object> responseMap = new HashMap<>();
+    responseMap.put("result", "success");
+    responseMap.put(
+        "broadband",
+        "[[\"NAME\",\"S2802_C03_022E\",\"state\",\"county\"],\n[\"Kings County, California\",\"83.5\",\"06\",\"031\"]]");
+    return null;
   }
 }

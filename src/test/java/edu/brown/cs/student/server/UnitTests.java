@@ -1,17 +1,17 @@
-//package edu.brown.cs.student.server;
+// package edu.brown.cs.student.server;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
 //
-//import edu.brown.cs.student.main.server.WebAPIResponse;
-//import java.io.IOException;
-//import java.util.Arrays;
-//import java.util.HashMap;
-//import java.util.Map;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
+// import edu.brown.cs.student.main.server.WebAPIResponse;
+// import java.io.IOException;
+// import java.util.Arrays;
+// import java.util.HashMap;
+// import java.util.Map;
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
 //
-//public class UnitTests {
+// public class UnitTests {
 //
 //  @BeforeEach
 //  public void setup() {
@@ -50,4 +50,4 @@
 //    assertEquals(potato, result);
 //    // If the above produces an exception, the JUnit test will fail.
 //  }
-//}
+// }

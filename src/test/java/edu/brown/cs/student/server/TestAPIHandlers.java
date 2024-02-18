@@ -1,6 +1,7 @@
 package edu.brown.cs.student.server;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -12,9 +13,11 @@ import edu.brown.cs.student.main.loadCode.LoadHandler;
 import edu.brown.cs.student.main.searchCode.SearchHandler;
 import edu.brown.cs.student.main.server.WebAPIResponse;
 import edu.brown.cs.student.main.viewCode.ViewHandler;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +96,7 @@ public class TestAPIHandlers {
       assertEquals("success", responseMap.get("result"));
       assertEquals("src/test/csv/postsecondary_education.csv", responseMap.get("activity"));
     } catch (IOException e) {
-      System.err.println("testLoadCSV failed");
+      fail("testLoadCSV failed");
     }
   }
 
@@ -126,7 +129,7 @@ public class TestAPIHandlers {
       assertEquals("success", responseMap.get("result"));
       assertEquals(data, responseMap.get("data"));
     } catch (IOException e) {
-      System.err.println("testViewCSV failed");
+      fail("testViewCSV failed");
     }
   }
 
@@ -156,7 +159,61 @@ public class TestAPIHandlers {
       assertEquals("success", responseMap.get("result"));
       assertEquals(data, responseMap.get("data"));
     } catch (IOException e) {
-      System.err.println("testViewCSV failed");
+      fail("testSearchCSV failed");
+    }
+  }
+
+  @Test
+  public void testBroadband() {
+    List<List<String>> data = new ArrayList<>();
+    List<String> row = new ArrayList<>();
+    row.add("\"NAME\",\"S2802_C03_022E\",\"state\",\"county\"");
+    row.add("\"Kings County, California\",\"83.5\",\"06\",\"031\"");
+
+    try {
+      // make query for broadband data
+      HttpURLConnection broadband = tryRequest("broadband?state=California&county=Kings%20County");
+      assertEquals(200, broadband.getResponseCode());
+      WebAPIResponse response = adapter.fromJson(new Buffer().readFrom(broadband.getInputStream()));
+      Map<String, Object> responseMap = response.responseMap();
+
+      // compare results
+      assertEquals("success", responseMap.get("result"));
+      System.out.println(responseMap.get("broadband"));
+      assertEquals(data, responseMap.get("broadband"));
+
+    } catch (IOException e) {
+      fail("testBroadband failed");
+    }
+  }
+
+  @Test
+  public void testBadLoad() {
+    try {
+      HttpURLConnection clientConnection =
+          tryRequest("loadcsv?filepath=src/test/csv/blahblahblah.csv");
+      WebAPIResponse response =
+          adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+    }
+    catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBadSearch() {
+    try {
+      HttpURLConnection load = tryRequest("loadcsv?filepath=src/test/csv/simple.csv");
+      assertEquals(200, load.getResponseCode());
+
+      // call searchcsv
+      HttpURLConnection search =
+          tryRequest("searchcsv?blorg=name&blarg=header2&header=true&term=thing2");
+      WebAPIResponse response = adapter.fromJson(new Buffer().readFrom(search.getInputStream()));
+    }
+    catch (IOException e) {
+      System.out.println(e.getMessage());
     }
   }
 }
+
